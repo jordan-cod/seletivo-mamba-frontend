@@ -1,4 +1,5 @@
 import { StatusBadge } from "@/components/shared/badge";
+import Button from "@/components/shared/button";
 import { campaignService } from "@/services/campaign.service";
 import { formatDate } from "@/utils/format";
 import Link from "next/link";
@@ -25,16 +26,15 @@ export default async function CampaignPage({
                 </div>
             ) : (
                 <section className="space-y-4">
-                    <header className="flex items-center justify-between">
-                        <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-100">
+                    <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-800 dark:text-zinc-100">
                             {campaign.name}
                         </h1>
-                        <Link
-                            href={`/campaigns/${campaign.id}/edit`}
-                            className="text-sm px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
-                        >
-                            Edit Campaign
-                        </Link>
+
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                            <Button>Edit Campaign</Button>
+                            <Button variant="danger">Delete Campaign</Button>
+                        </div>
                     </header>
 
                     <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-2">
@@ -57,3 +57,4 @@ export default async function CampaignPage({
         </div>
     );
 }
+
