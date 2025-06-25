@@ -1,4 +1,5 @@
 import CampaignList from "@/components/campaign-list";
+import CreateCampaignAction from "@/components/create-campaign-modal";
 import { campaignService } from "@/services/campaign.service";
 import { Campaign } from "@/types/campaign.interface";
 import Link from "next/link";
@@ -8,25 +9,27 @@ export default async function CampaignsPage(): Promise<React.ReactNode> {
 
     return (
         <div className="container mx-auto px-6 py-8 space-y-6">
-            <header className="flex items-center justify-between">
-                <Link
-                    href="/"
-                    className="inline-flex items-center text-sm text-blue-600 hover:underline"
-                >
-                    ← Back to dashboard
-                </Link>
-                <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-100">
+            <header className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                <div className="flex justify-start">
+                    <Link
+                        href="/"
+                        className="inline-flex items-center text-sm text-blue-600 hover:underline"
+                    >
+                        ← Back to dashboard
+                    </Link>
+                </div>
+
+                <h1 className="text-2xl text-center sm:text-3xl font-bold text-zinc-800 dark:text-zinc-100">
                     Campaigns
                 </h1>
-                <Link
-                    href="/campaigns/new"
-                    className="inline-block px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                    + New Campaign
-                </Link>
+
+                <div className="flex justify-end">
+                    <CreateCampaignAction />
+                </div>
             </header>
 
             <CampaignList campaings={campaigns} />
         </div>
     );
 }
+

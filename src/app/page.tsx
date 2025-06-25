@@ -44,3 +44,4 @@ export default async function Home(): Promise<React.ReactNode> {
         </div>
     );
 }
+
