@@ -1,7 +1,7 @@
 import { Campaign } from "@/types/campaign.interface";
 import { formatDate } from "@/utils/format";
 import Link from "next/link";
-import { StatusBadge } from "./shared/badge";
+import { StatusBadge } from "../shared/badge";
 
 export default function CampaignItem({
     campaign

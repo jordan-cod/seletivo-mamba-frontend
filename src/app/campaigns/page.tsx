@@ -1,5 +1,5 @@
-import CampaignList from "@/components/campaign-list";
-import CreateCampaignAction from "@/components/create-campaign-modal";
+import CampaignList from "@/components/campaign/campaign-list";
+import CreateCampaignAction from "@/components/campaign/modal/create-campaign-modal";
 import { campaignService } from "@/services/campaign.service";
 import { Campaign } from "@/types/campaign.interface";
 import Link from "next/link";
@@ -32,4 +32,3 @@ export default async function CampaignsPage(): Promise<React.ReactNode> {
         </div>
     );
 }
-

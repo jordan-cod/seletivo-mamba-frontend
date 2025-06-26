@@ -1,4 +1,4 @@
-import CampaignList from "@/components/campaign-list";
+import CampaignList from "@/components/campaign/campaign-list";
 import Card from "@/components/shared/card";
 import { campaignService } from "@/services/campaign.service";
 import Link from "next/link";
@@ -44,4 +44,3 @@ export default async function Home(): Promise<React.ReactNode> {
         </div>
     );
 }
-
