@@ -1,9 +1,15 @@
+export enum CampaignStatus {
+    Active = "active",
+    Paused = "paused",
+    Expired = "expired"
+}
+
 export type Campaign = {
     readonly id: string;
     name: string;
     startDate: Date;
     endDate: Date;
-    status: "active" | "paused" | "expired";
+    status: CampaignStatus;
 
     readonly createdAt: Date;
     readonly updatedAt: Date;
