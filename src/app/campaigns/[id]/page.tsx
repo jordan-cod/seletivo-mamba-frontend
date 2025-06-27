@@ -3,13 +3,21 @@ import Button from "@/components/shared/button";
 import { campaignService } from "@/services/campaign.service";
 import { formatDate } from "@/utils/format";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function CampaignPage({
     params
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }): Promise<React.ReactNode> {
-    const campaign = await campaignService.getCampaign(params.id);
+    const { id } = await params;
+    const campaign = await campaignService.getCampaign(id);
+
+    async function handleDeleteCampaign(): Promise<void> {
+        "use server";
+        await campaignService.deleteCampaign(id);
+        redirect("/campaigns");
+    }
 
     return (
         <div className="container mx-auto px-6 py-8 space-y-6">
@@ -33,7 +41,11 @@ export default async function CampaignPage({
 
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                             <Button>Edit Campaign</Button>
-                            <Button variant="danger">Delete Campaign</Button>
+                            <form action={handleDeleteCampaign}>
+                                <Button variant="danger" type="submit">
+                                    Delete Campaign
+                                </Button>
+                            </form>
                         </div>
                     </header>
 
@@ -41,15 +53,17 @@ export default async function CampaignPage({
                         <StatusBadge status={campaign.status} />
                         <p>
                             <strong>Start date:</strong>
-                            {formatDate(campaign.startDate)}
+                            {formatDate(campaign.start_date)}
                         </p>
                         <p>
                             <strong>End date:</strong>
-                            {formatDate(campaign.endDate)}
+                            {campaign.end_date
+                                ? formatDate(campaign.end_date)
+                                : "No expiration"}
                         </p>
                         <p className="text-sm text-zinc-500 dark:text-zinc-400 pt-2 border-t border-zinc-200 dark:border-zinc-800 mt-4">
-                            Created at {formatDate(campaign.createdAt)} •
-                            Updated em {formatDate(campaign.updatedAt)}
+                            Created at {formatDate(campaign.created_at)} •
+                            Updated em {formatDate(campaign.updated_at)}
                         </p>
                     </div>
                 </section>
@@ -57,4 +71,3 @@ export default async function CampaignPage({
         </div>
     );
 }
-
