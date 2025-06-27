@@ -16,7 +16,7 @@ export default function CampaignList({
 
     return (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {campaings.slice(0, 5).map((campaign) => {
+            {campaings.map((campaign) => {
                 return (
                     <li key={campaign.id}>
                         <CampaignItem campaign={campaign} />

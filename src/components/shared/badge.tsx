@@ -1,9 +1,9 @@
 import { Campaign } from "@/types/campaign.interface";
 
 const statusColors: Record<Campaign["status"] | "default", string> = {
-    active: "text-green-600 border-green-600",
-    paused: "text-yellow-500 border-yellow-500",
-    expired: "text-red-600 border-red-600",
+    ativa: "text-green-600 border-green-600",
+    pausada: "text-yellow-500 border-yellow-500",
+    expirada: "text-red-600 border-red-600",
     default: "text-gray-600 border-gray-600"
 };
 

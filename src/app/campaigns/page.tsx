@@ -5,7 +5,10 @@ import { Campaign } from "@/types/campaign.interface";
 import Link from "next/link";
 
 export default async function CampaignsPage(): Promise<React.ReactNode> {
-    const campaigns: Campaign[] = await campaignService.getCampaigns();
+    const campaigns: Campaign[] = await campaignService.getCampaigns({
+        page: 1,
+        size: 10
+    });
 
     return (
         <div className="container mx-auto px-6 py-8 space-y-6">

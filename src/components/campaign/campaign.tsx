@@ -28,16 +28,26 @@ export default function CampaignItem({
                         <dt className="font-medium">Start</dt>
                         <dd
                             title={new Date(
-                                campaign.startDate
+                                campaign.start_date
                             ).toLocaleString()}
                         >
-                            {formatDate(campaign.startDate)}
+                            {formatDate(campaign.start_date)}
                         </dd>
                     </div>
                     <div>
                         <dt className="font-medium">End</dt>
-                        <dd title={new Date(campaign.endDate).toLocaleString()}>
-                            {formatDate(campaign.endDate)}
+                        <dd
+                            title={
+                                campaign.end_date
+                                    ? new Date(
+                                          campaign.end_date
+                                      ).toLocaleString()
+                                    : undefined
+                            }
+                        >
+                            {campaign.end_date
+                                ? formatDate(campaign.end_date)
+                                : "No expiration"}
                         </dd>
                     </div>
                 </dl>
