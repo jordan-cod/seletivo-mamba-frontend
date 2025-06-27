@@ -1,18 +1,23 @@
 export enum CampaignStatus {
-    Active = "active",
-    Paused = "paused",
-    Expired = "expired"
+    Active = "ativa",
+    Paused = "pausada",
+    Expired = "expirada"
 }
 
 export type Campaign = {
     readonly id: string;
     name: string;
-    startDate: Date;
-    endDate: Date;
     status: CampaignStatus;
+    category: {
+        id: string;
+        name: string;
+    };
+    start_date: Date;
+    end_date: Date | null;
 
-    readonly createdAt: Date;
-    readonly updatedAt: Date;
+    readonly created_at: Date;
+    readonly updated_at: Date;
+    readonly deleted_at: null;
 };
 
 export type CreateCampaignPayload = Omit<
