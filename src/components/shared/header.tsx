@@ -12,6 +12,12 @@ export default function Header(): React.ReactNode {
                         Campaign Manager
                     </h1>
                 </Link>
+                <Link
+                    href="/categories"
+                    className="text-sm font-medium text-blue-600 hover:underline"
+                >
+                    Categories
+                </Link>
             </div>
         </header>
     );

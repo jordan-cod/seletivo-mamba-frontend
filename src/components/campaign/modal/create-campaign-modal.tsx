@@ -24,7 +24,12 @@ export default function CreateCampaignAction() {
 
     return (
         <>
-            <Button onClick={() => setIsOpen(true)}>+ New Campaign</Button>
+            <Button
+                onClick={() => setIsOpen(true)}
+                className="w-full sm:w-auto"
+            >
+                + New Campaign
+            </Button>
             <Modal.Root isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <Modal.Header title="Create Campaign" />
                 <Modal.Body>

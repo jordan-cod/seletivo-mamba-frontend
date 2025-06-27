@@ -22,7 +22,7 @@ export default async function CampaignsPage(): Promise<React.ReactNode> {
                     </Link>
                 </div>
 
-                <h1 className="text-2xl text-center sm:text-3xl font-bold text-zinc-800 dark:text-zinc-100">
+                <h1 className="text-2xl text-left sm:text-center sm:text-3xl font-bold text-zinc-800 dark:text-zinc-100">
                     Campaigns
                 </h1>
 

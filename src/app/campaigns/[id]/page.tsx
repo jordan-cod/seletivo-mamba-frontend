@@ -37,12 +37,21 @@ export default async function CampaignPage({
                     <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <h1 className="text-2xl sm:text-3xl font-bold text-zinc-800 dark:text-zinc-100">
                             {campaign.name}
+                            <p className="text-sm text-zinc-500 dark:text-zinc-400 italic">
+                                {campaign.category
+                                    ? campaign.category.name
+                                    : "No category"}
+                            </p>
                         </h1>
 
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                             <Button>Edit Campaign</Button>
                             <form action={handleDeleteCampaign}>
-                                <Button variant="danger" type="submit">
+                                <Button
+                                    variant="danger"
+                                    type="submit"
+                                    className="w-full"
+                                >
                                     Delete Campaign
                                 </Button>
                             </form>

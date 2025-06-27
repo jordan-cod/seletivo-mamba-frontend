@@ -17,8 +17,14 @@ export default function CampaignItem({
             tabIndex={0}
         >
             <div className="flex items-baseline flex-col gap-3">
-                <h4 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+                <h4 className="w-full flex items-center justify-between gap-1 text-lg font-semibold text-zinc-800 dark:text-zinc-100">
                     {campaign.name}
+
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 italic">
+                        {campaign.category
+                            ? campaign.category.name
+                            : "No category"}
+                    </p>
                 </h4>
 
                 <StatusBadge status={campaign.status} />

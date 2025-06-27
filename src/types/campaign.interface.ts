@@ -11,13 +11,13 @@ export type Campaign = {
     category: {
         id: string;
         name: string;
-    };
+    } | null;
     start_date: Date;
     end_date: Date | null;
 
     readonly created_at: Date;
     readonly updated_at: Date;
-    readonly deleted_at: null;
+    readonly deleted_at: Date | null;
 };
 
 export type CreateCampaignPayload = Omit<

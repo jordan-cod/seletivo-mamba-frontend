@@ -4,12 +4,8 @@ import {
     CreateCampaignPayload,
     UpdateCampaignPayload
 } from "@/types/campaign.interface";
+import { Pagination } from "@/types/Pagination.interface";
 import { revalidateTag } from "next/cache";
-
-type Pagination = {
-    page: number;
-    size: number;
-};
 
 class CampaignService {
     private baseUrl: string = BACKEND_BASE_URL;
