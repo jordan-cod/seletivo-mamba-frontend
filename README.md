@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend - Teste Técnico
 
-## Getting Started
+Este repositório contém o frontend do teste técnico. Abaixo estão as instruções para configurar e executar o projeto localmente utilizando Docker.
 
-First, run the development server:
+## Tecnologias
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- TypeScript
+- React
+- Docker + Docker Compose
+
+## Pré-requisitos
+
+Antes de começar, você precisa ter instalado na sua máquina:
+
+- Git: https://git-scm.com/
+- Docker: https://www.docker.com/
+
+## Instalação e execução
+
+### 1. Clonar o repositório
+
+```sh
+git clone https://github.com/jordan-cod/seletivo-mamba-frontend
+cd seletivo-mamba-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configurar as variáveis de ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Crie um arquivo `.env` na raiz do projeto com base no `.env.example`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+cp .env.example .env
+```
 
-## Learn More
+Preencha os valores necessários de acordo com sua configuração local.
 
-To learn more about Next.js, take a look at the following resources:
+⚠️ Importante: Verifique se as portas configuradas no `.env` não estão sendo usadas por outros serviços.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Execute o comando abaixo para subir a aplicação:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+docker compose up -d --build
+```
 
-## Deploy on Vercel
+A aplicação estará disponível em:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```sh
+http://localhost:PORTA
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Estrutura do Projeto
+
+```sh
+├── Dockerfile             # Define o ambiente da aplicação no container
+├── README.md              # Documentação do projeto
+├── docker-compose.yaml    # Orquestra os containers do frontend
+├── eslint.config.mjs      # Configuração do ESLint
+├── next-env.d.ts          # Arquivo gerado pelo Next.js para suportar TypeScript
+├── next.config.ts         # Configuração personalizada do Next.js
+├── package-lock.json      # Travamento de dependências
+├── package.json           # Dependências e scripts do projeto
+├── postcss.config.mjs     # Configuração do PostCSS (ex: Tailwind CSS)
+├── src                    # Código-fonte da aplicação
+│   ├── actions            # Funções assíncronas (Server Actions)
+│   ├── app                # Estrutura de rotas (App Router)
+│   ├── components         # Componentes da aplicação
+│   │   └── shared         # Componentes genéricos reutilizáveis (botões, modais, etc)
+│   ├── config             # Configurações e constantes globais
+│   ├── schemas            # Schemas de validação com Zod
+│   ├── services           # Serviços para requisições HTTP e integração com backend
+│   ├── types              # Tipagens e interfaces TypeScript utilizadas no projeto
+│   └── utils              # Funções utilitárias
+└── tsconfig.json          # Configuração do TypeScript
+```
+
