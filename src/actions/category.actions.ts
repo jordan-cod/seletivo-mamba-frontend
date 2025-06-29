@@ -7,7 +7,6 @@ import {
 import { categoryService } from "@/services/categories.service";
 import { ActionCampaignResponse } from "@/types/campaign.interface";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function CreateCategoryAction(
     _: unknown,
@@ -51,11 +50,12 @@ export async function deleteCategoryAction(formData: FormData): Promise<void> {
     await categoryService.deleteCategory(id);
 
     revalidateTag("categories");
+    revalidateTag("campaigns");
 
     revalidatePath("/");
+    revalidatePath("/campaigns");
     revalidatePath("/categories");
-
-    redirect("/categories");
+    revalidatePath("/campaigns/[id]", "page");
 }
 
 export async function UpdateCategoryAction(
@@ -85,7 +85,12 @@ export async function UpdateCategoryAction(
         await categoryService.updateCategory(parsed.data.id, parsed.data);
 
         revalidateTag("categories");
+        revalidateTag("campaigns");
+
+        revalidatePath("/");
+        revalidatePath("/campaigns");
         revalidatePath("/categories");
+        revalidatePath("/campaigns/[id]", "page");
 
         return {
             success: true,
