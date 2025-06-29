@@ -1,8 +1,10 @@
+export const revalidate = 5;
+
 import { categoryService } from "@/services/categories.service";
 import { Category } from "@/types/category.interface";
-import Button from "@/components/shared/button";
 import Link from "next/link";
 import CategoryItem from "@/components/categories/category";
+import ModalCreate from "@/components/categories/create-modal";
 
 export default async function CategoriesPage(): Promise<React.ReactNode> {
     const categories: Category[] = await categoryService.getCategories({
@@ -28,7 +30,7 @@ export default async function CategoriesPage(): Promise<React.ReactNode> {
                 </h1>
 
                 <div className="flex justify-end">
-                    <Button className="w-full sm:w-auto">+ New Category</Button>
+                    <ModalCreate />
                 </div>
 
                 <div className="flex items-center gap-4">
