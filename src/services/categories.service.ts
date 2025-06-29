@@ -1,9 +1,6 @@
 import { BACKEND_BASE_URL } from "@/config/constants";
-import {
-    Category,
-    CreateCategoryPayload,
-    UpdateCategoryPayload
-} from "@/types/category.interface";
+import { CreateCategoryData, UpdateCategoryData } from "@/schemas/categories";
+import { Category } from "@/types/category.interface";
 import { Pagination } from "@/types/Pagination.interface";
 
 class CategoryService {
@@ -41,7 +38,7 @@ class CategoryService {
     }
 
     public async createCategory(
-        category: CreateCategoryPayload
+        category: CreateCategoryData
     ): Promise<Category> {
         try {
             const response = await fetch(`${this.baseUrl}/categories`, {
@@ -66,7 +63,7 @@ class CategoryService {
 
     public async updateCategory(
         id: string,
-        category: UpdateCategoryPayload
+        category: UpdateCategoryData
     ): Promise<Category | null> {
         try {
             const response = await fetch(`${this.baseUrl}/categories/${id}`, {
