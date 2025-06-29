@@ -1,4 +1,4 @@
-import { deleteCampaignAction } from "@/actions/delete-campaign.action";
+import { deleteCampaignAction } from "@/actions/campaigns.actions";
 import { StatusBadge } from "@/components/shared/badge";
 import Button from "@/components/shared/button";
 import { campaignService } from "@/services/campaign.service";

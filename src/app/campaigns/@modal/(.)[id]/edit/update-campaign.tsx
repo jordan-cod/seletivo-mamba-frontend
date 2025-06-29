@@ -1,6 +1,6 @@
 "use client";
 
-import UpdateCampaignAction from "@/actions/update-campaing.action";
+import UpdateCampaignAction from "@/actions/campaigns.actions";
 import CreateCampaignForm from "@/components/campaign/forms/form";
 import Button from "@/components/shared/button";
 import { Modal } from "@/components/shared/modal";

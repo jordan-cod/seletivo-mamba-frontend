@@ -1,11 +1,11 @@
 "use client";
 
+import { CreateCampaignAction } from "@/actions/campaigns.actions";
 import CreateCampaignForm from "@/components/campaign/forms/form";
 import Button from "@/components/shared/button";
 import { Modal } from "@/components/shared/modal";
 import { useRouter } from "next/navigation";
 import { Suspense, useRef } from "react";
-import CreateCampaignAction from "@/actions/create-campaign.action";
 
 export default function Page() {
     const formRef = useRef<HTMLFormElement>(null);
