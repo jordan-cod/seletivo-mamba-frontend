@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+    pull_request:
+        branches: ["main"]
+        types: ["closed"]
+
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        env:
+            REMOTE_USER: ${{ vars.EC2_USER }}
+            REMOTE_HOST: ${{ vars.EC2_REMOTE_HOST }}
+            PORT: ${{ vars.PORT }}
+            NEXT_PUBLIC_BACKEND_BASE_URL: ${{ vars.NEXT_PUBLIC_BACKEND_BASE_URL }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Create .env file
+              run: |
+                  echo "PORT=$PORT" > .env
+                  echo "NEXT_PUBLIC_BACKEND_BASE_URL=$NEXT_PUBLIC_BACKEND_BASE_URL" >> .env
+
+            - name: Deploy to EC2
+              uses: easingthemes/ssh-deploy@main
+              with:
+                  ARGS: "-rlgoDzvc --delete"
+                  SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+                  EXCLUDE: ".git .github .vscode .gitignore eslint.config.mjs readme.MD .prettierrc"
+                  REMOTE_HOST: ${{ env.REMOTE_HOST }}
+                  REMOTE_USER: ${{ env.REMOTE_USER }}
+                  TARGET: "~/frontend"
+                  SCRIPT_AFTER: |
+                      cd ~/frontend
+                      docker-compose down
+                      docker-compose up -d --build
+
