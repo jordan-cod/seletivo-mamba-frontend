@@ -172,7 +172,7 @@ class CampaignService {
             }
         } catch (error) {
             console.error(`Error deleting campaign with id ${id}:`, error);
-            throw error;
+            return;
         }
     }
 }
