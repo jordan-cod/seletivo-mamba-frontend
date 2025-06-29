@@ -1,9 +1,9 @@
+import { deleteCampaignAction } from "@/actions/delete-campaign.action";
 import { StatusBadge } from "@/components/shared/badge";
 import Button from "@/components/shared/button";
 import { campaignService } from "@/services/campaign.service";
 import { formatDate } from "@/utils/format";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function CampaignPage({
     params
@@ -13,15 +13,10 @@ export default async function CampaignPage({
     const { id } = await params;
     const campaign = await campaignService.getCampaign(id);
 
-    async function handleDeleteCampaign(): Promise<void> {
-        "use server";
-        await campaignService.deleteCampaign(id);
-        redirect("/campaigns");
-    }
-
     return (
         <div className="container mx-auto px-6 py-8 space-y-6">
             <Link
+                prefetch={false}
                 href="/campaigns"
                 className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
             >
@@ -45,12 +40,20 @@ export default async function CampaignPage({
                         </h1>
 
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-                            <Button>Edit Campaign</Button>
-                            <form action={handleDeleteCampaign}>
+                            <Link href={`/campaigns/${campaign.id}/edit`}>
+                                <Button>Edit Campaign</Button>
+                            </Link>
+                            <form>
+                                <input
+                                    type="hidden"
+                                    name="id"
+                                    value={campaign.id}
+                                />
                                 <Button
                                     variant="danger"
                                     type="submit"
                                     className="w-full"
+                                    formAction={deleteCampaignAction}
                                 >
                                     Delete Campaign
                                 </Button>
@@ -80,3 +83,4 @@ export default async function CampaignPage({
         </div>
     );
 }
+

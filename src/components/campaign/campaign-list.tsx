@@ -2,11 +2,11 @@ import { Campaign } from "@/types/campaign.interface";
 import CampaignItem from "./campaign";
 
 export default function CampaignList({
-    campaings
+    campaigns
 }: {
-    campaings: Campaign[];
+    campaigns: Campaign[];
 }): React.ReactNode {
-    if (!campaings || campaings.length === 0) {
+    if (!campaigns || campaigns.length === 0) {
         return (
             <div className="text-center text-zinc-500 dark:text-zinc-400">
                 No campaigns found.
@@ -16,7 +16,7 @@ export default function CampaignList({
 
     return (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {campaings.map((campaign) => {
+            {campaigns.map((campaign) => {
                 return (
                     <li key={campaign.id}>
                         <CampaignItem campaign={campaign} />
@@ -26,3 +26,4 @@ export default function CampaignList({
         </ul>
     );
 }
+

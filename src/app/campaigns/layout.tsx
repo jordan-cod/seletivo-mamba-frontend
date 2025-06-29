@@ -1,7 +1,14 @@
 export default function Layout({
-    children
+    children,
+    modal
 }: {
     children: React.ReactNode;
+    modal: React.ReactNode;
 }): React.ReactNode {
-    return <>{children}</>;
+    return (
+        <>
+            {children} {modal}
+        </>
+    );
 }
+
