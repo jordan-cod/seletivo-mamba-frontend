@@ -1,18 +1,11 @@
-import { categoryService } from "@/services/categories.service";
+import { deleteCategoryAction } from "@/actions/category.actions";
 import { Category } from "@/types/category.interface";
-import { redirect } from "next/navigation";
 
 export default function CategoryItem({
     category
 }: {
     category: Category;
 }): React.ReactNode {
-    async function handleDeleteCategory(): Promise<void> {
-        "use server";
-        await categoryService.deleteCategory(category.id);
-        redirect("/categories");
-    }
-
     return (
         <div
             className="
@@ -45,7 +38,8 @@ export default function CategoryItem({
                     edit
                 </button>
 
-                <form action={handleDeleteCategory}>
+                <form action={deleteCategoryAction}>
+                    <input type="hidden" name="id" value={category.id} />
                     <button
                         type="submit"
                         aria-label={`Delete category ${category.name}`}
@@ -58,3 +52,4 @@ export default function CategoryItem({
         </div>
     );
 }
+
