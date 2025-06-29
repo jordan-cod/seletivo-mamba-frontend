@@ -1,0 +1,18 @@
+services:
+    frontend:
+        container_name: frontend
+        build: .
+        ports:
+            - "${PORT:-3000}:3000"
+        environment:
+            - NODE_ENV=production
+        volumes:
+            - .:/app
+        restart: unless-stopped
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        external: true
+        name: app-network
