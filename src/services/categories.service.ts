@@ -5,7 +5,6 @@ import {
     UpdateCategoryPayload
 } from "@/types/category.interface";
 import { Pagination } from "@/types/Pagination.interface";
-import { revalidateTag } from "next/cache";
 
 class CategoryService {
     private baseUrl: string = BACKEND_BASE_URL;
@@ -23,7 +22,7 @@ class CategoryService {
                         "Content-Type": "application/json"
                     },
                     next: {
-                        revalidate: 3600,
+                        revalidate: 60,
                         tags: ["categories"]
                     }
                 }
@@ -57,7 +56,6 @@ class CategoryService {
                 throw new Error("Failed to create category");
             }
 
-            revalidateTag("categories");
             const createdCampaign: { data: Category } = await response.json();
             return createdCampaign.data;
         } catch (error) {
@@ -83,7 +81,6 @@ class CategoryService {
                 throw new Error(`Failed to update campaign with id ${id}`);
             }
 
-            revalidateTag("categories");
             const updatedCampaign: { data: Category } = await response.json();
             return updatedCampaign.data;
         } catch (error) {
@@ -104,13 +101,12 @@ class CategoryService {
             if (!response.ok) {
                 throw new Error(`Failed to delete category with id ${id}`);
             }
-
-            revalidateTag("categories");
         } catch (error) {
             console.error(`Error deleting category with id ${id}:`, error);
-            throw error;
+            return;
         }
     }
 }
 
 export const categoryService = new CategoryService();
+
