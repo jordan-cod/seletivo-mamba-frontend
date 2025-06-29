@@ -4,12 +4,14 @@ import { UpdateCategoryAction } from "@/actions/category.actions";
 import Button from "@/components/shared/button";
 import { Modal } from "@/components/shared/modal";
 import { Category } from "@/types/category.interface";
-import { Suspense, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import { BiPencil } from "react-icons/bi";
 import CategoryForm from "./form";
 
 export default function ModalUpdate({ category }: { category: Category }) {
     const formRef = useRef<HTMLFormElement>(null);
+    const router = useRouter();
     const [isPending, setIsPending] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -33,17 +35,18 @@ export default function ModalUpdate({ category }: { category: Category }) {
             <Modal.Root isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <Modal.Header title="Update Category" />
                 <Modal.Body>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <CategoryForm
-                            formRef={formRef}
-                            action={UpdateCategoryAction}
-                            onPendingChange={(pending) => {
-                                setIsPending(pending);
-                            }}
-                            onSuccess={() => setIsOpen(false)}
-                            initialInputs={category}
-                        />
-                    </Suspense>
+                    <CategoryForm
+                        formRef={formRef}
+                        action={UpdateCategoryAction}
+                        onPendingChange={(pending) => {
+                            setIsPending(pending);
+                        }}
+                        onSuccess={() => {
+                            setIsOpen(false);
+                            router.refresh();
+                        }}
+                        initialInputs={category}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button

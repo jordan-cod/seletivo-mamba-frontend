@@ -98,6 +98,8 @@ class CategoryService {
             if (!response.ok) {
                 throw new Error(`Failed to delete category with id ${id}`);
             }
+
+            return;
         } catch (error) {
             console.error(`Error deleting category with id ${id}:`, error);
             return;

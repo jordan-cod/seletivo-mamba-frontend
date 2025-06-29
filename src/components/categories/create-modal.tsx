@@ -1,10 +1,10 @@
 "use client";
 
+import { CreateCategoryAction } from "@/actions/category.actions";
 import Button from "@/components/shared/button";
 import { Modal } from "@/components/shared/modal";
-import { Suspense, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CategoryForm from "./form";
-import { CreateCategoryAction } from "@/actions/category.actions";
 
 export default function ModalCreate() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -22,16 +22,14 @@ export default function ModalCreate() {
             <Modal.Root isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <Modal.Header title="Create Category" />
                 <Modal.Body>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <CategoryForm
-                            formRef={formRef}
-                            action={CreateCategoryAction}
-                            onPendingChange={(pending) => {
-                                setIsPending(pending);
-                            }}
-                            onSuccess={() => setIsOpen(false)}
-                        />
-                    </Suspense>
+                    <CategoryForm
+                        formRef={formRef}
+                        action={CreateCategoryAction}
+                        onPendingChange={(pending) => {
+                            setIsPending(pending);
+                        }}
+                        onSuccess={() => setIsOpen(false)}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
