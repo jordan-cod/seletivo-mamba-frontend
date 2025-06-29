@@ -48,7 +48,6 @@ export async function CreateCampaignAction(
 }
 
 export async function deleteCampaignAction(formData: FormData): Promise<void> {
-    console.log(formData);
     const id = formData.get("id")?.toString() ?? "";
     await campaignService.deleteCampaign(id);
 

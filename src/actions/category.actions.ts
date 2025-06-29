@@ -14,7 +14,6 @@ export async function CreateCategoryAction(
     formData: FormData
 ): Promise<ActionCampaignResponse> {
     const raw = Object.fromEntries(formData.entries());
-    console.log(raw);
     const parsed = createCategorySchema.safeParse(raw);
 
     if (!parsed.success) {
@@ -48,7 +47,6 @@ export async function CreateCategoryAction(
 }
 
 export async function deleteCategoryAction(formData: FormData): Promise<void> {
-    console.log(formData);
     const id = formData.get("id")?.toString() ?? "";
     await categoryService.deleteCategory(id);
 
