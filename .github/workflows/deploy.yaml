@@ -30,7 +30,7 @@ jobs:
               with:
                   ARGS: "-rlgoDzvc --delete"
                   SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-                  EXCLUDE: ".git .github .vscode .gitignore eslint.config.mjs readme.MD .prettierrc"
+                  EXCLUDE: ".git,.github,.vscode,.gitignore,eslint.config.mjs,readme.MD,.prettierrc"
                   REMOTE_HOST: ${{ env.REMOTE_HOST }}
                   REMOTE_USER: ${{ env.REMOTE_USER }}
                   TARGET: "~/frontend"
