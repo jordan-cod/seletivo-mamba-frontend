@@ -1,11 +1,7 @@
+import { CreateCampaignData, UpdateCampaignData } from "@/schemas/campaign";
 import { BACKEND_BASE_URL } from "@/config/constants";
-import {
-    Campaign,
-    CreateCampaignPayload,
-    UpdateCampaignPayload
-} from "@/types/campaign.interface";
-import { Pagination } from "@/types/Pagination.interface";
-import { revalidateTag } from "next/cache";
+import { Campaign, CampaignStatus } from "@/types/campaign.interface";
+import { Pagination, PaginationResponse } from "@/types/Pagination.interface";
 
 class CampaignService {
     private baseUrl: string = BACKEND_BASE_URL;
@@ -13,17 +9,18 @@ class CampaignService {
     public async getCampaigns({
         page = 1,
         size = 10
-    }: Pagination): Promise<Campaign[]> {
+    }: Pagination): Promise<PaginationResponse<Campaign>> {
         try {
             const response = await fetch(
                 `${this.baseUrl}/campaigns?page=${page}&size=${size}`,
                 {
                     method: "GET",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        cache: "no-store"
                     },
                     next: {
-                        revalidate: 3600,
+                        revalidate: 60,
                         tags: ["campaigns"]
                     }
                 }
@@ -33,11 +30,21 @@ class CampaignService {
                 throw new Error("Failed to fetch campaigns");
             }
 
-            const campaigns: { data: Campaign[] } = await response.json();
-            return campaigns.data;
+            const campaigns: PaginationResponse<Campaign> =
+                await response.json();
+            return campaigns;
         } catch (error) {
             console.error("Error fetching campaigns:", error);
-            return [];
+            return {
+                message: "Error fetching campaigns",
+                data: [],
+                pagination: {
+                    page: 1,
+                    size: size,
+                    total: 0,
+                    totalPages: 0
+                }
+            };
         }
     }
 
@@ -49,7 +56,7 @@ class CampaignService {
                     "Content-Type": "application/json"
                 },
                 next: {
-                    revalidate: 3600,
+                    revalidate: 60,
                     tags: ["campaigns", `campaign:${id}`]
                 }
             });
@@ -66,8 +73,44 @@ class CampaignService {
         }
     }
 
+    public async countCampaignsPerStatus(
+        statuses?: CampaignStatus[]
+    ): Promise<Record<string, number>> {
+        try {
+            const query =
+                statuses && statuses.length > 0
+                    ? `?${statuses.map((s) => `status=${encodeURIComponent(s)}`).join("&")}`
+                    : "";
+
+            const response = await fetch(
+                `${this.baseUrl}/campaigns/status-count${query}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    next: {
+                        revalidate: 60,
+                        tags: ["campaigns"]
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to count campaigns");
+            }
+
+            const campaigns: { data: Record<string, number> } =
+                await response.json();
+            return campaigns.data;
+        } catch (error) {
+            console.error("Error counting campaigns:", error);
+            return {};
+        }
+    }
+
     public async createCampaign(
-        campaign: CreateCampaignPayload
+        campaign: CreateCampaignData
     ): Promise<Campaign> {
         try {
             const response = await fetch(`${this.baseUrl}/campaigns`, {
@@ -82,7 +125,6 @@ class CampaignService {
                 throw new Error("Failed to create campaign");
             }
 
-            revalidateTag("campaigns");
             const createdCampaign: Campaign = await response.json();
             return createdCampaign;
         } catch (error) {
@@ -93,7 +135,7 @@ class CampaignService {
 
     public async updateCampaign(
         id: string,
-        campaign: UpdateCampaignPayload
+        campaign: UpdateCampaignData
     ): Promise<Campaign | null> {
         try {
             const response = await fetch(`${this.baseUrl}/campaigns/${id}`, {
@@ -108,8 +150,6 @@ class CampaignService {
                 throw new Error(`Failed to update campaign with id ${id}`);
             }
 
-            revalidateTag("campaigns");
-            revalidateTag(`campaign:${id}`);
             const updatedCampaign: { data: Campaign } = await response.json();
             return updatedCampaign.data;
         } catch (error) {
@@ -130,9 +170,6 @@ class CampaignService {
             if (!response.ok) {
                 throw new Error(`Failed to delete campaign with id ${id}`);
             }
-
-            revalidateTag("campaigns");
-            revalidateTag(`campaign:${id}`);
         } catch (error) {
             console.error(`Error deleting campaign with id ${id}:`, error);
             throw error;
@@ -141,3 +178,4 @@ class CampaignService {
 }
 
 export const campaignService = new CampaignService();
+
