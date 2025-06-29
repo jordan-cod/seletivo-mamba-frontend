@@ -15,6 +15,7 @@ export default async function CategoriesPage(): Promise<React.ReactNode> {
             <header className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
                 <div className="flex justify-start">
                     <Link
+                        prefetch={false}
                         href="/"
                         className="inline-flex items-center text-sm text-blue-600 hover:underline"
                     >
@@ -44,3 +45,4 @@ export default async function CategoriesPage(): Promise<React.ReactNode> {
         </div>
     );
 }
+
