@@ -1,22 +1,21 @@
 "use server";
 
-import { campaignService } from "@/services/campaign.service";
+import {
+    createCategorySchema,
+    updateCategorySchema
+} from "@/schemas/categories";
 import { categoryService } from "@/services/categories.service";
 import { ActionCampaignResponse } from "@/types/campaign.interface";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-    CreateCampaignSchema,
-    UpdateCampaignSchema
-} from "../schemas/campaign";
 
 export async function CreateCategoryAction(
     _: unknown,
     formData: FormData
 ): Promise<ActionCampaignResponse> {
     const raw = Object.fromEntries(formData.entries());
-
-    const parsed = CreateCampaignSchema.safeParse(raw);
+    console.log(raw);
+    const parsed = createCategorySchema.safeParse(raw);
 
     if (!parsed.success) {
         return {
@@ -27,7 +26,7 @@ export async function CreateCategoryAction(
         };
     }
     try {
-        await campaignService.createCampaign(parsed.data);
+        await categoryService.createCategory(parsed.data);
 
         revalidateTag("categories");
 
@@ -54,9 +53,11 @@ export async function deleteCategoryAction(formData: FormData): Promise<void> {
     await categoryService.deleteCategory(id);
 
     revalidateTag("categories");
+
+    revalidatePath("/");
     revalidatePath("/categories");
 
-    redirect("/");
+    redirect("/categories");
 }
 
 export async function UpdateCategoryAction(
@@ -64,7 +65,7 @@ export async function UpdateCategoryAction(
     formData: FormData
 ): Promise<ActionCampaignResponse> {
     const raw = Object.fromEntries(formData.entries());
-    const parsed = UpdateCampaignSchema.safeParse(raw);
+    const parsed = updateCategorySchema.safeParse(raw);
 
     if (!parsed.success) {
         const { fieldErrors } = parsed.error.flatten();
