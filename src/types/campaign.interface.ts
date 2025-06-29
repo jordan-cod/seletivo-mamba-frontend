@@ -12,19 +12,18 @@ export type Campaign = {
         id: string;
         name: string;
     } | null;
-    start_date: Date;
-    end_date: Date | null;
+    start_date: string;
+    end_date: string | null;
 
     readonly created_at: Date;
     readonly updated_at: Date;
     readonly deleted_at: Date | null;
 };
 
-export type CreateCampaignPayload = Omit<
-    Campaign,
-    "id" | "createdAt" | "updatedAt"
->;
+export type ActionCampaignResponse = {
+    success: boolean;
+    message: string;
+    errors?: Record<string, string[]>;
+    inputs?: Record<string, string>;
+};
 
-export type UpdateCampaignPayload = Partial<
-    Omit<Campaign, "id" | "createdAt" | "updatedAt">
->;
