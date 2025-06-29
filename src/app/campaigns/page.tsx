@@ -1,11 +1,12 @@
+export const revalidate = 5;
+
 import CampaignList from "@/components/campaign/campaign-list";
-import CreateCampaignAction from "@/components/campaign/modal/create-campaign-modal";
+import Button from "@/components/shared/button";
 import { campaignService } from "@/services/campaign.service";
-import { Campaign } from "@/types/campaign.interface";
 import Link from "next/link";
 
 export default async function CampaignsPage(): Promise<React.ReactNode> {
-    const campaigns: Campaign[] = await campaignService.getCampaigns({
+    const { data } = await campaignService.getCampaigns({
         page: 1,
         size: 10
     });
@@ -27,11 +28,16 @@ export default async function CampaignsPage(): Promise<React.ReactNode> {
                 </h1>
 
                 <div className="flex justify-end">
-                    <CreateCampaignAction />
+                    <Link href="/campaigns/new">
+                        <Button className="w-full sm:w-auto">
+                            + New Campaign
+                        </Button>
+                    </Link>
                 </div>
             </header>
 
-            <CampaignList campaings={campaigns} />
+            <CampaignList campaigns={data} />
         </div>
     );
 }
+

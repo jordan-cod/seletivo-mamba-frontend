@@ -1,3 +1,5 @@
+export const revalidate = 5;
+
 import CampaignList from "@/components/campaign/campaign-list";
 import Card from "@/components/shared/card";
 import { campaignService } from "@/services/campaign.service";
@@ -5,22 +7,33 @@ import { CampaignStatus } from "@/types/campaign.interface";
 import Link from "next/link";
 
 export default async function Home(): Promise<React.ReactNode> {
-    // todo: update get campaings to use pagination
-    const campaigns = await campaignService.getCampaigns({ page: 1, size: 6 });
-    const countByStatus = (status: string) =>
-        campaigns.filter((c) => c.status === status).length;
+    const { data } = await campaignService.getCampaigns({ page: 1, size: 6 });
+    const countByStatus = await campaignService.countCampaignsPerStatus([
+        CampaignStatus.Active,
+        CampaignStatus.Paused,
+        CampaignStatus.Expired
+    ]);
 
     return (
         <div className="container mx-auto p-6 space-y-8">
             <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                    { label: "Active", status: CampaignStatus.Active },
-                    { label: "Paused", status: CampaignStatus.Paused },
-                    { label: "Expired", status: CampaignStatus.Expired }
-                ].map(({ label, status }) => {
+                {Object.keys(CampaignStatus).map((key) => {
+                    const count =
+                        countByStatus[
+                            CampaignStatus[key as keyof typeof CampaignStatus]
+                        ] ?? 0;
+
                     return (
-                        <Card label={label} status={status} key={status}>
-                            {countByStatus(status)}
+                        <Card
+                            label={key}
+                            status={
+                                CampaignStatus[
+                                    key as keyof typeof CampaignStatus
+                                ]
+                            }
+                            key={key}
+                        >
+                            {count}
                         </Card>
                     );
                 })}
@@ -39,8 +52,9 @@ export default async function Home(): Promise<React.ReactNode> {
                     </Link>
                 </header>
 
-                <CampaignList campaings={campaigns} />
+                <CampaignList campaigns={data} />
             </section>
         </div>
     );
 }
+
